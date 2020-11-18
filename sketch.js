@@ -8,8 +8,9 @@ function preload(){
 
 function setup(){
 	createCanvas(500,500);
-  dog=createSprite(200,200);
+  dog=createSprite(250,250);
   dog.addImage(dogimg);
+  dog.scale=0.2;
   database = firebase.database();
   foodStock=database.ref('Food');
   foodStock.on("value",readstock);
