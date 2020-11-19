@@ -25,21 +25,22 @@ function draw(){
   }
   drawSprites();
   //add styles here
-  textSize(20);
+  textSize(30);
   fill("black");
-  stroke("white")
+  stroke("black");
+  text("FoodRemaining:"+foodS,100,100)
 }
 //Fuction to read values from db
-function readstock(){
+function readstock(data){
+  foodS=data.val();
+}
+//Fuction to write values from db
+function writeStock(x){
   if (x<=0){
     x=0
   }else{
     x-=1
   }
-  foodS=data.val();
-}
-//Fuction to write values from db
-function writeStock(){
   database.ref('/').update({
     Food:x
   })
