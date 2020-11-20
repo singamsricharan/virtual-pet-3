@@ -9,8 +9,8 @@ function preload(){
 }
 
 function setup(){
-	createCanvas(500,500);
-  dog=createSprite(250,250);
+	createCanvas(800,500);
+  dog=createSprite(700,250);
   dog.addImage(dogimg);
   dog.scale=0.2;
   foodObj=new Food();
@@ -29,9 +29,9 @@ function setup(){
 
 function draw(){  
   background(46,139,87);
-  fedTime=database.ref('FeedTime');
+  fedTime=database.ref('lastFed');
   fedTime.on("value",function(data){
-    lastfed=data.val();
+  lastfed=data.val();
   })
   foodObj.display();
   drawSprites();
@@ -39,7 +39,18 @@ function draw(){
   textSize(30);
   fill("black");
   stroke("black");
-  text("FoodRemaining:"+foodS,100,100)
+  text("FoodRemaining:"+foodS,100,100);
+  fill(255,255,254);
+  textSize(15);
+  if(lastfed>=12){
+    text("last Feed : "+lastfed+"PM",200,40)
+  }
+  else if(lastfed==0){
+    text("Last Feed : 12 AM",200,40)
+  }
+  else{
+    text("Last Feed : "+lastfed+"AM",200,40)
+  }
 }
 function addFoods(){
   foodS++;
@@ -52,7 +63,7 @@ function feedDog(){
 
   foodObj.updateFoodStock(foodObj.getFoodStock()-1);
   database.ref('/').update({
-    food:foodObj.getFoodStock(),
+    Food:foodObj.getFoodStock(),
     fedTime:hour()
   })
 }
