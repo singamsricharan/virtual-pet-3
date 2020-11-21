@@ -9,14 +9,12 @@ function preload(){
 }
 
 function setup(){
-	createCanvas(800,500);
-  dog=createSprite(700,250);
+	createCanvas(1000,500);
+  dog=createSprite(800,250);
   dog.addImage(dogimg);
   dog.scale=0.2;
   foodObj=new Food();
   database = firebase.database();
-  foodStock=database.ref('Food');
-  foodStock.on("value",readstock);
   feed=createButton("feed the dog");
   feed.position(700,95);
   feed.mousePressed(feedDog);

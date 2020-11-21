@@ -5,10 +5,14 @@ class Food{
         this.image=loadImage("images/milk.png")
     }
     getFoodStock(){
-
+        foodStock=database.ref('Food');
+        foodStock.on("value",readstock);
+        foodStock=data.val();
     }
     updateFoodStock(){
-
+        database.ref('/').update({
+            Food:foodStock
+        })
     }
     deductFood(){
 
@@ -16,7 +20,7 @@ class Food{
     display(){
         var x=80,y=100;
         imageMode(CENTER);
-        image(this.image,100,220,70,70);
+        image(this.image,720,220,70,70);
 
         if(this.foodStock!=0){
             for (var i=0;i<this.foodStock;i++){
