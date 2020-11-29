@@ -9,12 +9,17 @@ function preload(){
 }
 
 function setup(){
-	createCanvas(1000,500);
+  database = firebase.database();
+  createCanvas(1000,500);
+  
   dog=createSprite(800,250);
   dog.addImage(dogimg);
   dog.scale=0.2;
+
   foodObj=new Food();
-  database = firebase.database();
+  foodStock=database.ref('Food');
+  foodStock.on("value",readstock);
+
   feed=createButton("feed the dog");
   feed.position(700,95);
   feed.mousePressed(feedDog);
@@ -27,17 +32,11 @@ function setup(){
 
 function draw(){  
   background(46,139,87);
-  fedTime=database.ref('lastFed');
+  foodObj.display();
+  fedTime=database.ref("FeedTime");
   fedTime.on("value",function(data){
   lastfed=data.val();
   })
-  foodObj.display();
-  drawSprites();
-  //add styles here
-  textSize(30);
-  fill("black");
-  stroke("black");
-  text("FoodRemaining:"+foodS,100,100);
   fill(255,255,254);
   textSize(15);
   if(lastfed>=12){
@@ -49,6 +48,11 @@ function draw(){
   else{
     text("Last Feed : "+lastfed+"AM",200,40)
   }
+  drawSprites();
+  textSize(30);
+  fill("black");
+  stroke("black");
+  text("FoodRemaining:"+foodS,100,100);
 }
 function addFoods(){
   foodS++;
@@ -62,12 +66,13 @@ function feedDog(){
   foodObj.updateFoodStock(foodObj.getFoodStock()-1);
   database.ref('/').update({
     Food:foodObj.getFoodStock(),
-    fedTime:hour()
+    FeedTime:hour()
   })
 }
 //Fuction to read values from db
 function readstock(data){
   foodS=data.val();
+  foodObj.updateFoodStock(foodS);
 }
 //Fuction to write values from db
 function writeStock(x){
