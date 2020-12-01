@@ -18,7 +18,15 @@ class Food{
     getFeedTime(lastFed){
         this.lastFed=lastFed
     }
-    display(){
+    washroom(){
+        background(washroom,550,500);
+    }
+    bedroom(){
+        background(bedroom,550,500);
+    }
+    garden(){
+    background(garden,550,500);
+}    display(){
         var x=80,y=100;
         imageMode(CENTER);
         image(this.image,720,220,70,70);
